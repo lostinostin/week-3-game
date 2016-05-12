@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  	<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/creative.css">
+
+
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div id="game"></div>
+		<div class="container">
+			<div class="row">
+				<div id="current"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="wordToGuess"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="numOfGuesses"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="lettersGuessed"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="wins"></div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script type="text/javascript">
+
+	//-------------------------------------------------------------------//
+	//	I got it to work, thanks to some amazing help by Josh Madwell    //
+	//  I'm going to be updating it over the weekend so if you want      //
+	//  to see the final product, it'll be on my github. I understand    //
+	//  that this is what is going to be graded and I'm fine with that   //
+	//  I just want to make it look awesome because this is super fun.   //
+	//------------------------------------------------------------------ //
+
+	var wins = 0;
+	var losses = 0;
+	var guesses = [];
+	var words = ["monitor", "program", "application", "keyboard", "javascript", "gaming", "network"];
+	var currentWord = words[Math.floor(Math.random() * words.length)].split('');
+	var correctGuesses = Array(currentWord.length);
+	var letter = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+	//var id = 0;
+	var turns = 15;
+	var wordToGuess = "";
+	//var totalFound = 0;
+
+	//It made more sense to me on 11MAY to make this an object, rather than just making several functions.
+ 	var game = {
+
+	 drawCurrentWord: function(input) {
+	 	$("#wordToGuess").html("");
+	   	for(var i = 0; i < correctGuesses.length; i++) {
+	      if (correctGuesses[i] == undefined) {
+	      	$("#wordToGuess").append("<span>_ </span>");
+	      } else {
+			$("#wordToGuess").append("<span>" + correctGuesses[i] + "</span>");
+			}
+		}
+	},
+
+
+		resetState: function() {
+			console.log(correctGuesses);
+			$("#wordToGuess").html("<span>" + correctGuesses + "</span>");
+		},
+
+		addInput: function (input) {
+	  		guesses.push(input);
+		}
+	}
+
+	document.onkeyup = function(event) {
+		var userInput = String.fromCharCode(event.keyCode).toLowerCase();
+		for (var i=0; i < currentWord.length; i++) {
+			if (currentWord[i] == userInput) {
+				correctGuesses[i] = userInput;
+			}
+			
+			//began adding the part where it counts the number of wins
+			/*if (correctGuesses.length == -1) {
+
+			}*/
+    	}
+      	
+      	game.drawCurrentWord();
+      	game.addInput(userInput);
+      	turns--;
+      	$("#current").html("<h1>Try guessing this one: </h1>");
+		$("#numOfGuesses").html("<h4>Number of Guesses Left:" + turns + " </h4>");
+		$("#lettersGuessed").html("<p>" + guesses + "</p>");
+		$("#wins").html("<p>" + wins + "</p>");
+	} 
+
+	</script>
+
+</body>
+</html>
+
